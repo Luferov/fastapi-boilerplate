@@ -1,0 +1,13 @@
+[
+    {
+        "model": "src.apps.auth.models.User",
+        "id": 1,
+        "fields": {
+            "email": "admin@sberbs.ru",
+            "hashed_password": "hashed_password",
+            "is_active": true,
+            "is_superuser": true,
+            "is_verified": true
+        }
+    }
+]

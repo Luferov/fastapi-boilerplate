@@ -1,0 +1,68 @@
+default_language_version:
+  python: python3.11
+
+repos:
+  # general checks (see here: https://pre-commit.com/hooks.html)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+        args: [ --allow-multiple-documents ]
+      - id: trailing-whitespace
+      - id: check-case-conflict
+      - id: check-symlinks
+
+  # black - formatting
+  - repo: https://github.com/psf/black
+    rev: 23.7.0
+    hooks:
+      - id: black
+        name: black
+        args:
+          - "--config"
+          - "./pyproject.toml"
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.0.284
+    hooks:
+      - id: ruff
+        args: [ --fix, --exit-non-zero-on-fix ]
+        types_or: [ python, pyi, jupyter ]
+        stages: [ commit ]
+
+  # mypy - lint-like type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.4.1
+    hooks:
+      - id: mypy
+        args: [ "--ignore-missing-imports", "--scripts-are-modules" ]
+        additional_dependencies: [ "types-all" ]
+
+  # docformatter - formats docstrings to follow PEP 257
+  - repo: https://github.com/pycqa/docformatter
+    rev: v1.7.5
+    hooks:
+      - id: docformatter
+        name: docformatter
+        args:
+          [
+            -r,
+            -i,
+            --pre-summary-newline,
+            --make-summary-multi-line,
+            --wrap-summaries,
+            "90",
+            --wrap-descriptions,
+            "90",
+            src,
+            tests,
+          ]
+
+  - repo: local
+    hooks:
+    -   id: pytest
+        name: Check pytest with coverage passes
+        entry: poetry run pytest --cov-report html --cov=src tests
+        pass_filenames: false
+        language: system
+        types: [python]

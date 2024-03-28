@@ -1,0 +1,67 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  root:
+    format: "[%(levelname)s][%(asctime)s] %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+  standart_formatter:
+    format: "[%(levelname)s][%(asctime)s][%(filename)s:%(funcName)s:%(lineno)d] %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+  json_formatter:
+    format: '[{"asctime": "%(asctime)s",
+            "created": "%(created)f",
+            "filename": "%(filename)s",
+            "funcName": "%(funcName)s",
+            "levelname": "%(levelname)s",
+            "levelno": "%(levelno)s",
+            "lineno": "%(lineno)d",
+            "message": "%(message)s",
+            "module": "%(module)s",
+            "msec": "%(msecs)d",
+            "name": "%(name)s",
+            "pathname": "%(pathname)s",
+            "process": "%(process)d",
+            "processName": "%(processName)s",
+            "relativeCreated": "%(relativeCreated)d",
+            "thread": "%(thread)d",
+            "threadName": "%(threadName)s",
+            "exc_info": "%(exc_info)s"}],'
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: standart_formatter
+    stream: ext://sys.stdout
+
+  standart_rotating_file:
+      class: logging.handlers.RotatingFileHandler
+      level: INFO
+      formatter: standart_formatter
+      filename: /tmp/app_logs.log
+      maxBytes: 10485760 # 10MB
+      backupCount: 10
+      encoding: utf8
+
+  json_rotating_file:
+      class: logging.handlers.RotatingFileHandler
+      level: INFO
+      formatter: json_formatter
+      filename: /tmp/app_logs.json
+      maxBytes: 10485760 # 10MB
+      backupCount: 10
+      encoding: utf8
+
+loggers:
+  root:
+    level: INFO
+    handlers: [ console ]
+
+  standart:
+    level: INFO
+    handlers: [ console ]
+    propagate: no

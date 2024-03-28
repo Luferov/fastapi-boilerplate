@@ -1,0 +1,14 @@
+.idea/
+venv/
+.ruff_cache/
+
+.env
+.coverage
+
+logs/
+.format.log
+/**/.pytest_cache
+__pycache__
+.mypy_cache/
+
+speech_analysis/certs/ftp/*

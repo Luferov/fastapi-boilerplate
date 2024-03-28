@@ -1,0 +1,103 @@
+[tool.poetry]
+name = "fastapi-boilerplate"
+version = "0.1.0"
+description = "FastAPI boiler plate"
+authors = ["Luferov Victor <luferovvs@yandex.ru>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.104.1"
+sqlalchemy = "^2.0.23"
+psycopg = {extras = ["binary", "pool"], version = "^3.1.13"}
+alembic = "^1.12.1"
+uvicorn = {extras = ["standard"], version = "^0.24.0.post1"}
+pydantic-settings = "^2.0.3"
+fastapi-users = {extras = ["sqlalchemy"], version = "^12.1.2"}
+miniopy-async = "^1.17"
+aiofiles = "^23.2.1"
+httpx = "^0.27.0"
+fastapi-cache2 = {extras = ["redis"], version = "^0.2.1"}
+pytest = "^7.4.3"
+sqlalchemy-utils = "^0.41.1"
+aiokafka = "^0.10.0"
+typer = "^0.9.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-mock = "^3.12.0"
+ruff = "^0.1.5"
+black = "^23.11.0"
+ipython = "^8.17.2"
+pytest-asyncio = "^0.21.1"
+pre-commit = "^3.5.0"
+mypy = "^1.7.0"
+docformatter = "^1.7.5"
+pytest-cov = "^4.1.0"
+types-pyyaml = "^6.0.12.12"
+pytest-env = "^1.1.1"
+pytest-sugar = "^0.9.7"
+pytest-xdist = "^3.5.0"
+ipykernel = "^6.29.0"
+pytest-httpx = "^0.30.0"
+types-redis = "^4.6.0.20240218"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+skip-string-normalization = true
+line-length = 120
+
+[tool.ruff]
+line-length = 120
+extend-select = ["Q"]
+
+src = ["src", "tests"]
+exclude = [
+    ".venv",
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "venv",
+]
+
+# exclude = ["jupyter_notebook_config.py"]
+select = [
+    "E",  # pycodestyle errors (settings from FastAPI, thanks, @tiangolo!)
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "C901",  # too complex
+]
+
+target-version = "py311"
+
+[tool.ruff.flake8-quotes]
+inline-quotes = "single"
+
+[tool.ruff.isort]
+order-by-type = true
+relative-imports-order = "closest-to-furthest"
+extra-standard-library = ["typing"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+known-first-party = []
+
+
+[tool.pytest.ini_options]
+addopts = "-vvv"
+testpaths = "tests"
+
+[mypy]
+files = ["src"]
+strict_optional = false

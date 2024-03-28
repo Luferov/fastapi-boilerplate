@@ -1,0 +1,29 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "FastAPI Server",
+            "type": "shell",
+            "command": "poetry",
+            "args": [
+                "run",
+                "uvicorn",
+                "src.main:app",
+                "--reload",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8000"
+            ],
+            "options": {
+                "env": {
+                    "PYTHONUNBUFFERED": "1",
+                },
+            },
+            "detail": "uvicorn src.main:app --reload",
+            "problemMatcher": [],
+        },
+    ]
+}

@@ -1,0 +1,60 @@
+version: "3.9"
+
+x-postgres-variables: &postgres-variables
+  POSTGRES_DB: "${DB__NAME}"
+  POSTGRES_USER: "${DB__USER}"
+  POSTGRES_PASSWORD: "${DB__PASSWORD}"
+
+x-minio-variables: &minio-variables
+  MINIO_SERVER_URL: "${STORAGE__S3__SERVER_URL}"
+  MINIO_ROOT_USER: "${STORAGE__S3__ACCESS_KEY}"
+  MINIO_ROOT_PASSWORD: "${STORAGE__S3__SECRET_KEY}"
+  MINIO_BUCKET: "${STORAGE__S3__BUCKET}"
+
+services:
+  postgres:
+    container_name: fb-postgres
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      <<: *postgres-variables
+    ports:
+      - "${DB__PORT}:5432"
+    healthcheck:
+      interval: 10s
+      retries: 10
+      test: "pg_isready -U ${DB__USER} -d ${DB__NAME}"
+      timeout: 2s
+
+  minio:
+    container_name: fb-minio
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+    environment:
+      <<: *minio-variables
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  minio-client:
+    container_name: fb-minio-client
+    image: minio/mc
+    restart: unless-stopped
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - |
+        mc alias set local http://minio:9000 ${STORAGE__S3__ACCESS_KEY} ${STORAGE__S3__SECRET_KEY}
+        mc mb --ignore-existing local/${STORAGE__S3__BUCKET}
+        mc anonymous set download local/${STORAGE__S3__BUCKET}
+    depends_on:
+      - minio
+
+  redis:
+    container_name: redis-partsorder
+    image: redis:latest
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
