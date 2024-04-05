@@ -16,6 +16,5 @@ class BaseUserRepository(BaseUserDatabase[User, USER_ID]):
 class UserRepository(SQLAlchemyUserDatabase[User, USER_ID]):
     ...
 
-
 async def get_user_repository(session: Annotated[AsyncSession, Depends(get_async_session)]) -> BaseUserRepository:
     return UserRepository(session, User)

@@ -7,9 +7,10 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.db import Base
+from src.core.pagination import ModelPaginator
 from src.core.utils.exceptions import ModelNotFoundException
 
-from ..schemas import CreateBaseModel, UpdateBaseModel
+from ..schemas import CreateBaseModel, PaginationItem, PaginationSchema, UpdateBaseModel
 
 ModelType = TypeVar('ModelType', bound=Base, covariant=True)
 ReadSchemaType = TypeVar('ReadSchemaType', bound=BaseModel)
@@ -142,3 +143,16 @@ class BaseRepositoryImpl(Generic[ModelType, ReadSchemaType, CreateSchemaType, Up
             statement = sa.delete(self.model_type).where(self.model_type.id == id)
             await s.execute(statement)
             return True
+
+    async def get_list(
+        self,
+        model_paginator_type: Type[ModelPaginator[ReadSchemaType]],
+        pagination: PaginationSchema
+    ) -> PaginationSchema[ReadSchemaType]:
+        statement = sa.select(self.model_type)
+        model_paginator = model_paginator_type(self.session)
+        return await model_paginator.get_list(
+            statement=statement,
+            pagination=pagination
+        )
+
