@@ -1,2 +1,0 @@
-from .user_repository import BaseUserRepository as BaseUserRepository
-from .user_repository import get_user_repository as get_user_repository

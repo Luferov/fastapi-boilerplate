@@ -65,6 +65,3 @@ loggers:
     level: DEBUG
     handlers: [ console ]
     propagate: no
-
-
-

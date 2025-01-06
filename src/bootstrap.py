@@ -7,7 +7,6 @@ from src.core.services.cache import CacheManager
 from src.middleware import apply_middleware
 from src.router import apply_routes
 from src.settings import settings
-from src.swagger import use_route_names_as_operation_ids
 
 
 @asynccontextmanager
@@ -30,6 +29,7 @@ async def lifespan(app: FastAPI):
 
     # await stream_repository.stop()
 
+
 def create_app() -> FastAPI:
     app = FastAPI(
         lifespan=lifespan,
@@ -38,6 +38,5 @@ def create_app() -> FastAPI:
     )
 
     app = apply_routes(apply_middleware(app))
-    use_route_names_as_operation_ids(app)
 
     return app

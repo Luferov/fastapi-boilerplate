@@ -1,5 +1,5 @@
 default_language_version:
-  python: python3.11
+  python: python3.12
 
 repos:
   # general checks (see here: https://pre-commit.com/hooks.html)
@@ -28,7 +28,7 @@ repos:
       - id: ruff
         args: [ --fix, --exit-non-zero-on-fix ]
         types_or: [ python, pyi, jupyter ]
-        stages: [ commit ]
+        stages: [ pre-commit ]
 
   # mypy - lint-like type checking
   - repo: https://github.com/pre-commit/mirrors-mypy
@@ -36,33 +36,98 @@ repos:
     hooks:
       - id: mypy
         args: [ "--ignore-missing-imports", "--scripts-are-modules" ]
-        additional_dependencies: [ "types-all" ]
+        additional_dependencies:
+          - types-DateTimeRange
+          - types-Deprecated
+          - types-Flask
+          - types-JACK-Client
+          - types-Jinja2
+          - types-Markdown
+          - types-MarkupSafe
+          - types-Pillow
+          - types-PyJWT
+          - types-PyMySQL
+          - types-PyYAML
+          - types-Routes
+          - types-Werkzeug
+          - types-aiofiles
+          - types-annoy
+          - types-atomicwrites
+          - types-backports
+          - types-backports-abc
+          - types-bleach
+          - types-boto
+          - types-cachetools
+          - types-certifi
+          - types-characteristic
+          - types-chardet
+          - types-click
+          - types-click-spinner
+          - types-colorama
+          - types-contextvars
+          - types-croniter
+          - types-cryptography
+          - types-dataclasses
+          - types-dateparser
+          - types-decorator
+          - types-docopt
+          - types-docutils
+          - types-emoji
+          - types-enum34
+          - types-fb303
+          - types-filelock
+          - types-first
+          - types-freezegun
+          - types-frozendict
+          - types-futures
+          - types-geoip2
+          - types-ipaddress
+          - types-itsdangerous
+          - types-kazoo
+          - types-maxminddb
+          - types-mock
+          - types-mypy-extensions
+          - types-nmap
+          - types-openssl-python
+          - types-orjson
+          - types-paramiko
+          - types-pathlib2
+          - types-setuptools
+          - types-polib
+          - types-protobuf
+          - types-pyRFC3339
+          - types-pyaudio
+          - types-pycurl
+          - types-pyfarmhash
+          - types-pymssql
+          - types-pysftp
+          - types-python-dateutil
+          - types-python-gflags
+          - types-python-slugify
+          - types-pytz
+          - types-pyvmomi
+          - types-redis
+          - types-requests
+          - types-retry
+          - types-scribe
+          - types-simplejson
+          - types-singledispatch
+          - types-six
+          - types-tabulate
+          - types-termcolor
+          - types-toml
+          - types-tornado
+          - types-typed-ast
+          - types-tzlocal
+          - types-ujson
+          - types-waitress
+          - types-xxhash
 
-  # docformatter - formats docstrings to follow PEP 257
-  - repo: https://github.com/pycqa/docformatter
-    rev: v1.7.5
-    hooks:
-      - id: docformatter
-        name: docformatter
-        args:
-          [
-            -r,
-            -i,
-            --pre-summary-newline,
-            --make-summary-multi-line,
-            --wrap-summaries,
-            "90",
-            --wrap-descriptions,
-            "90",
-            src,
-            tests,
-          ]
-
-  - repo: local
-    hooks:
-    -   id: pytest
-        name: Check pytest with coverage passes
-        entry: poetry run pytest --cov-report html --cov=src tests
-        pass_filenames: false
-        language: system
-        types: [python]
+  # - repo: local
+  #   hooks:
+  #   -   id: pytest
+  #       name: Check pytest with coverage passes
+  #       entry: poetry run pytest --cov-report html --cov=src tests
+  #       pass_filenames: false
+  #       language: system
+  #       types: [python]

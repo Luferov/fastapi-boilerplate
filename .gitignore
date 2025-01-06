@@ -1,5 +1,6 @@
 .idea/
 venv/
+.venv/
 .ruff_cache/
 
 .env

@@ -5,7 +5,6 @@ from typing import Any, Callable, Generator
 import pytest
 from fastapi.testclient import TestClient
 from src.main import app
-from src.settings import Settings
 
 
 @pytest.fixture(scope='session')
@@ -17,11 +16,6 @@ def prepare_database() -> Callable[[], Generator[Any, Any, Any]]:
         os.system('alembic downgrade base')
 
     return prepare
-
-
-@pytest.fixture
-def settings() -> Settings:
-    return Settings.model_validate(obj={**os.environ}, from_attributes=True)
 
 
 @pytest.fixture
