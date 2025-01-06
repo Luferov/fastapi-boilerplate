@@ -3,9 +3,6 @@ from typing import TYPE_CHECKING
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
-
-# Import models
-from src.apps.auth.models import *  # noqa
 from src.core.db import Base
 from src.settings import settings
 
@@ -13,6 +10,8 @@ if TYPE_CHECKING:
     from .utils import render_item
 else:
     from migrations.utils import render_item
+
+# Import models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -24,6 +23,7 @@ config.set_section_option(section, 'DB_PASSWORD', settings.db.password)
 config.set_section_option(section, 'DB_HOST', settings.db.host)
 config.set_section_option(section, 'DB_PORT', str(settings.db.port))
 config.set_section_option(section, 'DB_NAME', settings.db.name)
+config.set_section_option(section, 'DB_SCHEMA', settings.db.scheme)
 
 
 # Interpret the config file for Python logging.
@@ -58,6 +58,7 @@ def run_migrations_offline() -> None:
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
+        compare_server_default=True,
         dialect_opts={'paramstyle': 'named'},
     )
 
@@ -84,7 +85,6 @@ def run_migrations_online() -> None:
             target_metadata=target_metadata,
             render_item=render_item,
         )
-
         with context.begin_transaction():
             context.run_migrations()
 

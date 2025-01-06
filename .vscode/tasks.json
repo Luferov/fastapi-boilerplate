@@ -6,7 +6,7 @@
         {
             "label": "FastAPI Server",
             "type": "shell",
-            "command": "poetry",
+            "command": "uv",
             "args": [
                 "run",
                 "uvicorn",

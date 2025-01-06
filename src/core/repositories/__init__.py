@@ -1,0 +1,2 @@
+from .base_repository import BaseRepositoryImpl as BaseRepositoryImpl
+from .base_repository import BaseRepositoryProtocol as BaseRepositoryProtocol

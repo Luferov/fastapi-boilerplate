@@ -20,7 +20,7 @@ def import_from_string(import_str: str):
 
 @app.command(
     name='loaddata',
-    help='poetry run python manage.py',
+    help='uv run python manage.py',
 )
 @typer_async
 async def loaddata():

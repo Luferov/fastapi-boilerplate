@@ -1,3 +1,5 @@
 .ruff_cash
 .logging.dev.yaml
 .venv
+.vscode
+.devcontainer

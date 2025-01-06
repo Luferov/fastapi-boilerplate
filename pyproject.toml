@@ -5,10 +5,12 @@ description = "FastAPI boilerplate"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "aiofiles>=24.1.0",
     "alembic>=1.14.0",
     "fastapi>=0.115.6",
     "fastapi-cache2[redis]>=0.2.2",
     "httpx>=0.28.1",
+    "miniopy-async>=1.21.1",
     "psycopg[binary,pool]>=3.2.3",
     "pydantic-settings>=2.7.1",
     "sqlalchemy>=2.0.36",

@@ -8,7 +8,7 @@ router = APIRouter(prefix='/healthcheck', tags=['Healthcheck'])
 
 
 @router.get(
-    '/status/',
+    '',
     description='Application status',
     response_model=HealthcheckResponseSchema,
 )
