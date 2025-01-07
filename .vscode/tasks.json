@@ -19,11 +19,31 @@
             ],
             "options": {
                 "env": {
-                    "PYTHONUNBUFFERED": "1",
-                },
+                    "PYTHONUNBUFFERED": "1"
+                }
             },
             "detail": "uvicorn src.main:app --reload",
-            "problemMatcher": [],
+            "problemMatcher": []
         },
+        {
+            "label": "FastAPI Debug",
+            "type": "shell",
+            "command": "uv",
+            "args": [
+                "run",
+                "debugpy",
+                "--listen",
+                "0.0.0.0:5678",
+                "-m",
+                "uvicorn",
+                "src.main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8000"
+            ],
+            "detail": "uvicorn src.main:app --reload",
+            "problemMatcher": []
+        }
     ]
 }

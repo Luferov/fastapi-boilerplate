@@ -12,10 +12,22 @@ x-minio-variables: &minio-variables
   MINIO_BUCKET: "${STORAGE__S3__BUCKET}"
 
 services:
+  devcontainer:
+    container_name: devcontainer-${APP_NAME}
+    image: mcr.microsoft.com/devcontainers/python:1-3.12-bullseye
+    volumes:
+      - ..:/workspaces:cached
+      - ~/.ssh:/home/vscode/.ssh:ro
+    command: sleep infinity
+    ports:
+      - 8000:8000
+      - 5678:5678
+    environment:
+      UV_LINK_MODE: copy
+
   postgres:
-    container_name: fb-postgres
+    container_name: postgres-${APP_NAME}
     image: postgres:latest
-    restart: unless-stopped
     environment:
       <<: *postgres-variables
     ports:
@@ -27,10 +39,9 @@ services:
       timeout: 2s
 
   minio:
-    container_name: fb-minio
+    container_name: minio-${APP_NAME}
     image: minio/minio
     command: server /data --console-address ":9001"
-    restart: unless-stopped
     environment:
       <<: *minio-variables
     ports:
@@ -38,9 +49,8 @@ services:
       - "9001:9001"
 
   minio-client:
-    container_name: fb-minio-client
+    container_name: minio-client-${APP_NAME}
     image: minio/mc
-    restart: unless-stopped
     entrypoint: ['/bin/sh', '-c']
     command:
       - |
@@ -51,9 +61,8 @@ services:
       - minio
 
   redis:
-    container_name: redis-partsorder
+    container_name: redis-${APP_NAME}
     image: redis:latest
-    restart: unless-stopped
     ports:
       - "6379:6379"
     healthcheck:
