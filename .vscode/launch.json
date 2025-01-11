@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "FastAPI Connect",
+      "name": "FastAPI Debug",
       "type": "debugpy",
       "request": "attach",
       "connect": {
