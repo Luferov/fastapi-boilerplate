@@ -1,5 +1,3 @@
-version: "3.9"
-
 x-postgres-variables: &postgres-variables
   POSTGRES_DB: "${DB__NAME}"
   POSTGRES_USER: "${DB__USER}"
@@ -14,10 +12,12 @@ x-minio-variables: &minio-variables
 services:
   devcontainer:
     container_name: devcontainer-${APP_NAME}
-    image: mcr.microsoft.com/devcontainers/python:1-3.12-bullseye
+    image: mcr.microsoft.com/devcontainers/python:1-3.13-bullseye
     volumes:
       - ..:/workspaces:cached
       - ~/.ssh:/home/vscode/.ssh:ro
+      - ~/.gitconfig:/home/vscode/.gitconfig:ro
+      - ~/.git-credentials:/home/vscode/.git-credentials:ro
     command: sleep infinity
     ports:
       - 8000:8000

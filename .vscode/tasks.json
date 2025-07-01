@@ -9,20 +9,22 @@
             "command": "uv",
             "args": [
                 "run",
-                "uvicorn",
-                "src.main:app",
+                "granian",
+                "--interface",
+                "asgi",
                 "--reload",
                 "--host",
                 "0.0.0.0",
                 "--port",
-                "8000"
+                "8000",
+                "src.entrypoints.rest:app",
             ],
             "options": {
                 "env": {
                     "PYTHONUNBUFFERED": "1"
                 }
             },
-            "detail": "uvicorn src.main:app --reload",
+            "detail": "granian src.entrypoints.rest:app --reload",
             "problemMatcher": []
         },
         {
@@ -35,13 +37,15 @@
                 "--listen",
                 "0.0.0.0:5678",
                 "-m",
-                "uvicorn",
-                "src.main:app",
+                "granian",
+                "--interface",
+                "asgi",
                 "--reload",
                 "--host",
                 "0.0.0.0",
                 "--port",
-                "8000"
+                "8000",
+                "src.entrypoints.rest:app",
             ],
             "detail": "uvicorn src.main:app --reload",
             "problemMatcher": []

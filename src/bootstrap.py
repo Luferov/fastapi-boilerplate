@@ -1,16 +1,16 @@
+from collections.abc import AsyncGenerator, Callable, Iterable
 from contextlib import asynccontextmanager
 
+from fast_clean.container import ContainerManager
+from fast_clean.exceptions import use_exceptions_handlers
+from fast_clean.middleware import use_middleware
 from fastapi import FastAPI
 
-from src.core.loggers import set_logging
-from src.core.services.cache import CacheManager
-from src.middleware import apply_middleware
-from src.router import apply_routes
-from src.settings import settings
+from .settings import SettingsSchema
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """
     Предварительная инициализация приложения.
 
@@ -18,25 +18,21 @@ async def lifespan(app: FastAPI):
     - устанавливаем настройки кеширования
     - устанавливаем настройки стриминга
     """
-    set_logging()
-
-    await CacheManager.init(settings)
-
-    # stream_repository = await get_streaming_repository_type()
-    # await stream_repository.start(settings.kafka)
 
     yield
 
-    # await stream_repository.stop()
+    await ContainerManager.close()
 
 
-def create_app() -> FastAPI:
-    app = FastAPI(
-        lifespan=lifespan,
-        docs_url='/docs',
-        openapi_url='/docs.json',
-    )
 
-    app = apply_routes(apply_middleware(app))
+def create_app(use_routes: Iterable[Callable[[FastAPI], None]]) -> FastAPI:
+    settings = SettingsSchema() # type: ignore
+    app = FastAPI(lifespan=lifespan, docs_url='/docs', openapi_url='/docs.json')
+    ContainerManager.init_for_fastapi(app)
+    use_middleware(app, settings.cors_origins)
+    use_exceptions_handlers(app, settings)
+
+    for use_route in use_routes:
+        use_route(app)
 
     return app

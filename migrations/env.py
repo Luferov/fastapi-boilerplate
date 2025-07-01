@@ -2,12 +2,12 @@ from logging.config import fileConfig
 from typing import TYPE_CHECKING
 
 from alembic import context
+from fast_clean.db import Base
 from sqlalchemy import engine_from_config, pool
-from src.core.db import Base
 from src.settings import settings
 
 if TYPE_CHECKING:
-    from .utils import render_item
+    from .utils import render_item  # type: ignore
 else:
     from migrations.utils import render_item
 
