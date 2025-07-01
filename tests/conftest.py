@@ -4,7 +4,7 @@ from typing import Any, Callable, Generator
 
 import pytest
 from fastapi.testclient import TestClient
-from src.main import app
+from src.entrypoints.rest import app
 
 
 @pytest.fixture(scope='session')

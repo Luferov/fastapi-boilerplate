@@ -3,12 +3,14 @@ name = "fastapi-boilerplate"
 version = "0.1.0"
 description = "FastAPI boilerplate"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 dependencies = [
     "aiofiles>=24.1.0",
     "alembic>=1.14.0",
+    "fast-clean>=1.1.1",
     "fastapi>=0.115.6",
     "fastapi-cache2[redis]>=0.2.2",
+    "granian[reload]>=2.4.0",
     "httpx>=0.28.1",
     "miniopy-async>=1.21.1",
     "psycopg[binary,pool]>=3.2.3",
@@ -17,17 +19,15 @@ dependencies = [
     "sqlalchemy>=2.0.36",
     "sqlalchemy-utils>=0.41.2",
     "typer>=0.15.1",
-    "uvicorn[standard]>=0.34.0",
 ]
 
 [dependency-groups]
 dev = [
-    "black>=24.10.0",
     "docformatter>=1.7.5",
     "ipykernel>=6.29.5",
     "ipython>=8.31.0",
     "mypy>=1.14.1",
-    "pre-commit>=4.0.1",
+    "pre-commit>=4.2.0",
     "pytest>=8.3.4",
     "pytest-asyncio>=0.25.1",
     "pytest-cov>=6.0.0",
@@ -72,8 +72,6 @@ ignore = [
     "E501",  # line too long, handled by black
     "C901",  # too complex
 ]
-
-target-version = "py311"
 
 [tool.ruff.flake8-quotes]
 inline-quotes = "single"
