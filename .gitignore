@@ -2,6 +2,7 @@
 venv/
 .venv/
 .ruff_cache/
+typings/
 
 .env
 .coverage
